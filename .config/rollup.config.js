@@ -27,9 +27,12 @@ const configs = bundles
             __DEV__: minify ? 'false' : 'true',
           }),
         babel({ babelHelpers: 'bundled' }),
-        // The two minifiers together seem to procude a smaller bundle 🤷‍♂️
+        // The two minifiers together seem to produce a smaller bundle 🤷‍♂️
         minify && compiler(),
-        minify && terser(),
+        minify &&
+          terser({
+            compress: { passes: 10 },
+          }),
         license({ banner: `@popperjs/core v${pkg.version} - MIT License` }),
         flow && flowEntry({ types: `lib/${getFileName(input)}.js` }),
         bundleSize(),
